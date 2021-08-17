@@ -1,10 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <title>Document</title>
+  <script src="link.js"></script>
 </head>
-<body>
+<style>
+  body{
 
+    font-family: "Lucida Console", "Courier New", monospace;
+    background-color: #3C1E6E;
+  }
+  .container{
+    margin: auto;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    text-align: center;
+  }
+  .gridItem{
+    position: relative;
+    text-align: center;
+    width: 300px;
+    margin: auto;
+  }
+  .gridItem img{
+    width: 290px;
+    border: 4px solid #6937B9;
+  }
+  .roomText{
+    position: absolute;
+    z-index: 5;
+    left: 5%;
+    top: 5%;
+    color: red;
+  }
+  .roomTile{
+    margin: 5px;
+    color: #decaff;
+  }
+    @media only screen and (min-width: 750px) {
+     .container{
+        display: grid;
+        grid-template-columns: 1fr 1fr ;
+      }
+    }
+    @media only screen and (min-width: 970px) {
+         .container{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+          }
+    }
+    @media only screen and (min-width: 1170px) {
+
+    }
+}
+  </style>
+<body>
+  <div class="container">
+    <div class="gridItem">
+
+      <img src="img/error.gif.crdownload" alt="">
+      <span class="roomText">Live </span>
+      <span class="roomTile">刑警總部 - 停屍間 </span>
+
+    </div>
+    <div class="gridItem">
+       <img src="img/error.gif.crdownload" alt="">
+        <span class="roomText">Live </span>
+      <span class="roomTile">中國銀行大廈 - Cindy </span>
+    </div>
+    <div class="gridItem">
+       <img src="img/error.gif.crdownload" alt="">
+        <span class="roomText">Live </span>
+      <span class="roomTile">Derek</span>
+    </div>
+    <div class="gridItem">
+       <img src="img/error.gif.crdownload" alt="">
+        <span class="roomText">Live </span>
+      <span class="roomTile">街市</span>
+
+    </div>
+    <div class="gridItem">
+       <img src="img/error.gif.crdownload" alt="">
+        <span class="roomText">Live </span>
+      <span class="roomTile">中國銀行大廈 - 後樓梯</span>
+    </div>
+    <div class="gridItem">
+       <img src="img/06.jpg" alt="">
+        <span class="roomText">Live </span>
+      <span class="roomTile">中國銀行大廈 - Andrew & Faust</span>
+
+    </div>
+    <div class="gridItem">
+       <img src="img/07.jpg" alt="">
+
+        <span class="roomText">Live </span>
+      <span class="roomTile">中國銀行大廈-Bella</span>
+    </div>
+    <div class="gridItem">
+       <img src="img/08.jpg" alt="">
+        <span class="roomText">Live </span>
+      <span class="roomTile">楊建文大廈 - Enson & Isa</span>
+
+    </div>
+    <div class="gridItem">
+       <img src="img/09.jpg" alt="">
+        <span class="roomText">Live </span>
+      <span class="roomTile">中國銀行大廈 - 保安崗 (Henry)
+</span>
+
+</div>
+
+  </div>
 </body>
 </html>
