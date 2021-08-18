@@ -52,7 +52,9 @@
 		margin: 0px 5px;
 		color: wheat;
 	}
-
+	.gridItem {
+		height: 400px;
+	}
 	.icon {
 		width: 70px;
 	}
@@ -71,6 +73,16 @@
 	#camImg {
 		height: 300px;
 		object-fit: cover;
+	}
+	.activeHide{
+		border: 3px solid  #3C1E6E;
+		background-color: white;
+		border-radius: 5px;
+		padding: 5px;
+		margin: 5px;
+		cursor: pointer;
+		color: #3C1E6E;
+
 	}
 
 </style>
@@ -152,8 +164,10 @@
 					}
 
 					document.getElementById("showVenue").innerHTML = temp;
+
 				});
 			});
+			setTimeout('myrefresh()',1000);
 			}
 
 
@@ -206,7 +220,8 @@
 			window.location.href = "index.html";
 		}
 
-	</script>
+		 //指定1秒刷新一次
+			</script>
 </body>
 
 </html>
