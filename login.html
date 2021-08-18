@@ -138,38 +138,7 @@
 
 			});
 		}
-		function getdata() {
-			var ref = db.collection('venue');
-			var temp="";
-			ref.onSnapshot(querySnapshot => {
-				querySnapshot.forEach(doc => {
-					var showStatus="Offlive";
-					if(doc.data().Status=="available"){
-					   showStatus="Live";
-					}
-					temp=`<div class="gridItem">
-						<img src="${doc.data().補充}" alt="">
-						<span class="roomText " >${showStatus} </span>
-						<span class="roomTile">${doc.data().GameVenue}</span>
-						</div>`;
-					document.getElementById("showVenue").innerHTML+=temp;
-				});
-			});
 
-		}
 
-		function updatedata() {
-			var ref = db.collection('venue').doc('停屍間');
-			ref.update({
-				CityUVenue: "AC2 - 5樓長枱位置",
-				Dorm: "Blue",
-				GameVenue: "停屍間",
-				Status: "unAvailable",
-				vid: "AC1-CR",
-				補充: "4 Dorm做完可以走"
-			}).then(() => {
-				console.log('update data successful');
-			});
-		}
 	</script>
 </body></html>

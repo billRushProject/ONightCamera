@@ -11,6 +11,8 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
 	<link rel="stylesheet" href="css/cctv.css">
+	<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+
 </head>
 <style>
 	/*
@@ -22,7 +24,6 @@
 	body {
 		margin: 0px;
 	}
-
 	nav,
 	.left-nav,
 	.right-nav {
@@ -33,18 +34,15 @@
 		align-items: center;
 		justify-content: space-around;
 	}
-
 	.right-nav>.nav-item {
 		border-radius: 8px;
 		border: 3px solid #3C1E6E;
 		background-color: transparent;
 	}
-
 	.right-nav>.nav-item:hover {
 		border: 3px solid white;
 		background-color: #3C1E6E;
 	}
-
 	.nav-item {
 		cursor: pointer;
 		vertical-align: middle;
@@ -59,28 +57,25 @@
 	.icon {
 		width: 70px;
 	}
-
 	.login {
 		text-decoration: none;
 		color: wheat;
 	}
-
 	.roomText {
 		font-weight: bold;
 		background-color: black;
 		padding: 5px;
 	}
-
 	#camImg {
 		height: 300px;
 		object-fit: cover;
 	}
 	.activeHide{
-		border: 3px solid  #3C1E6E;
+		display: block;
+		border: 5px solid  #3C1E6E;
 		background-color: white;
-		border-radius: 5px;
+		border-radius: 8px;
 		padding: 5px;
-		margin: 5px;
 		cursor: pointer;
 		color: #3C1E6E;
 	}
@@ -116,6 +111,7 @@
 	<script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-analytics.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-firestore.js"></script>
+	<script src="js/cookieMaker.js"></script>
 	<script src="js/fireBase.js"></script>
 	<script>
 		var DormName = localStorage.getItem('name');
@@ -126,10 +122,12 @@
 			var ref = db.collection('venue');
 			ref.onSnapshot(querySnapshot => {
 				querySnapshot.forEach(doc => {
+
 					var showStatus = "Live";
 					if (doc.data().Status !== "available") {
 						showStatus = doc.data().Dorm;
 					}
+
 					 if (DormName == null ) {
 						temp += `<div class="gridItem">
 						<img src="${doc.data().補充}" alt="" id="camImg">
@@ -146,33 +144,43 @@
 						<span class="roomTile">${doc.data().GameVenue}</span>
 						</div>`;
 						console.log("2");
-					}else if(dormAFK){
-						temp += `<div class="gridItem">
-						<img src="${doc.data().補充}" alt="" id="camImg">
-						<span class="roomText " >${showStatus} </span>
-						<span class="roomTile">${doc.data().GameVenue}</span>
-						<span class="roomTile activeHide" style="" id="${doc.id}" onclick="updatedata(this.id)">前往</span>
-						</div>`;
-
-
 					}else{
-						temp += `<div class="gridItem">
-						<img src="${doc.data().補充}" alt="" id="camImg">
-						<span class="roomText " >${showStatus} </span>
-						<span class="roomTile">${doc.data().GameVenue}</span>
-						</div>`;
+					let x = getCookie("afk");
+						if(x==null){
+							temp += `<div class="gridItem" id='con'>
+							<img src="${doc.data().補充}" alt="" id="camImg">
+							<span class="roomText " >${showStatus} </span>
+							<span class="roomTile">${doc.data().GameVenue}</span>
+							<span class="roomTile activeHide" style="" id="${doc.id}" onclick="updatedata(this.id);">前往</span>
+							</div>`;
+							console.log("3");
+						}else{
+							temp += `<div class="gridItem">
+							<img src="${doc.data().補充}" alt="" id="camImg">
+							<span class="roomText " >${showStatus} </span>
+							<span class="roomTile">${doc.data().GameVenue}</span>
+							</div>`;
+							console.log("4");
+						}
 					}
-
 					document.getElementById("showVenue").innerHTML = temp;
 
 				});
 			});
-			setTimeout('myrefresh()',1000);
 			}
-
+		function getCookie(cName) {
+		  const name = cName + "=";
+		  const cDecoded = decodeURIComponent(document.cookie); //to be careful
+		  const cArr = cDecoded.split('; ');
+		  let res;
+		  cArr.forEach(val => {
+			if (val.indexOf(name) === 0) res = val.substring(name.length);
+		  })
+		  return res
+		}
 
 		function updatedata(venueid) {
-
+				document.cookie = "afk=yes; expires=Thu, 18 Dec 2023 12:00:00 UTC; path=/";
 				var ref = db.collection('venue').doc(venueid);
 				ref.update({
 					Status: "unAvailable",
@@ -183,6 +191,7 @@
 				});
 		}
 		function updateLeaveRoomData(venueid) {
+				document.cookie = "afk=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 				var ref = db.collection('venue').doc(venueid);
 				ref.update({
 					Status: "available",
@@ -193,7 +202,6 @@
 				    window.location.href = "index.html";
 				});
 		}
-
 		function leaveRoom(){
 			db.collection("venue").where("Dorm", "==", DormName)
 				.get()
@@ -206,11 +214,10 @@
 				});
 			window.localStorage.setItem('afk', true);
 		}
-
+		//Account Control
 		function checkLogin() {
 			if (DormName != null) {
-				document.getElementById("loginInfo").innerHTML = `<div class="nav-item" id="loginInfo" onclick="leaveRoom()">
-			${DormName}:Leave</div>`;
+				document.getElementById("loginInfo").innerHTML = `<div class="nav-item" id="loginInfo" onclick="leaveRoom()">${DormName}</div>`;
 				document.getElementById("leftNav").innerHTML += `<div class="nav-item" onclick="signOut()">
 			Sign out</div>`;
 			}
@@ -219,8 +226,14 @@
 			localStorage.clear();
 			window.location.href = "index.html";
 		}
-
+		function clearCookie(){
+			document.cookie = "afk=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+			let x = getCookie("afk");
+				alert(x);
+		}
 	</script>
+
+
 </body>
 
 </html>
