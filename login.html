@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Document</title>
   <link rel="icon" href="img/onight.png" />
-<script src="link.js"></script>
 </head>
 <style>
   /*
@@ -47,10 +46,13 @@
     height: 30px;
     border-radius: 7px;
     border: 3px solid #3C1E6E;
+    text-align: center;
+	 font-size: 18px;
   }
 
   .icon {
     width: 60px;
+	  margin-bottom: 15px;
   }
   .formElement{
     margin:15px;
@@ -68,28 +70,107 @@
     background-color: #3C1E6E;
     color: #decaff;
   }
+	.error{
+		background-color: #decaff;
+		border-radius:5px;
+		padding: 15px;
+		margin: 15px 0px;
+		color: darkred;
+
+	}
 </style>
 
 <body>
   <div class="container">
 
-    <div class="content">
+    <div class="content"><h2>Sign in to System</h2>
       <img src="img/onight.png" alt="" class="icon">
-      <h2>Sign in to System</h2>
+      <div id="showMessage" ></div>
+
       <div class="loginForm">
+
         <div class="formElement">
          <span><i class="far fa-user"></i> Username / UID
           </span>
-          <div><input type="text"></div>
+          <div><input type="text" id="uid"></div>
         </div>
         <div class="formElement">
-         <span><i class="fas fa-key"></i> Password
+         <span><i class="fas fa-key" ></i> Password
           </span>
-          <div><input type="text"></div>
+          <div><input type="text" id="psd"></div>
         </div>
-        <button class="loginBtn">Sign in</button>
+        <button class="loginBtn" onclick="verifyIdentity()">Sign in</button>
       </div>
 
     </div>
   </div>
+  <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-analytics.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-firestore.js"></script>
+	<script src="js/fireBase.js"></script>
+	<script>
+		function verifyIdentity(){
+			var ref = db.collection('user');
+			var temp1="";
+			var tempUid=document.getElementById("uid").value;
+			var tempPassword=document.getElementById("psd").value;
+			var login= false;
+			var dormName="";
+			ref.onSnapshot(querySnapshot => {
+				querySnapshot.forEach(doc => {
+					dormName=doc.data().Dorm;
+					if(doc.data().userName==tempUid && doc.data().password== tempPassword){
+						login=true;
+					}else{
+
+					}
+
+				});
+				alert(login);
+				if(login){
+				   window.localStorage.setItem('name', dormName);
+				   window.location.href = "index.html";
+
+				 }else{
+
+					 document.getElementById("showMessage").innerHTML=`<div class="error">UID / Password is incorrect</div>`;
+				 }
+
+			});
+		}
+		function getdata() {
+			var ref = db.collection('venue');
+			var temp="";
+			ref.onSnapshot(querySnapshot => {
+				querySnapshot.forEach(doc => {
+					var showStatus="Offlive";
+					if(doc.data().Status=="available"){
+					   showStatus="Live";
+					}
+					temp=`<div class="gridItem">
+						<img src="${doc.data().補充}" alt="">
+						<span class="roomText " >${showStatus} </span>
+						<span class="roomTile">${doc.data().GameVenue}</span>
+						</div>`;
+					document.getElementById("showVenue").innerHTML+=temp;
+				});
+			});
+
+		}
+
+		function updatedata() {
+			var ref = db.collection('venue').doc('停屍間');
+			ref.update({
+				CityUVenue: "AC2 - 5樓長枱位置",
+				Dorm: "Blue",
+				GameVenue: "停屍間",
+				Status: "unAvailable",
+				vid: "AC1-CR",
+				補充: "4 Dorm做完可以走"
+			}).then(() => {
+				console.log('update data successful');
+			});
+		}
+	</script>
 </body></html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+
+<body>
+	<div>
+		<div>CityUVenue: <input type="text" id="cityu"></div>
+		<div>Dorm: <input type="text" id="dorm"></div>
+		<div>GameVenue:<input type="text" id="venue"></div>
+		<div>Status:<input type="text" id="status"></div>
+		<div>vid:<input type="text" id="vid"></div>
+		<div>補充: <input type="text" id="remark"></div>
+
+	</div>
+
+	<button onclick="storedata()">
+		store
+	</button>
+	<button onclick="getdata()">
+		get
+	</button>
+	<button onclick="updatedata()">
+		update
+	</button>
+	<script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-analytics.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-firestore.js"></script>
+	<script src="js/fireBase.js"></script>
+	<script>
+		function storedata() {
+			var tempCityu= document.getElementById("cityu").value;
+			var tempDorm= document.getElementById("dorm").value;
+			var tempGameVenue= document.getElementById("venue").value;
+			var tempStatus= document.getElementById("status").value;
+			var tempVid= document.getElementById("vid").value;
+			var tempStatus= document.getElementById("remark").value;
+
+			db.collection("venue").doc(tempGameVenue).set({
+				CityUVenue: tempCityu,
+				Dorm: tempDorm,
+				GameVenue: tempGameVenue,
+				Status: tempStatus,
+				vid: tempVid,
+				補充: tempStatus
+			});
+		}
+
+		function getdata() {
+			var ref = db.collection('venue');
+			ref.onSnapshot(querySnapshot => {
+				querySnapshot.forEach(doc => {
+					console.log(doc.id, doc.data());
+				});
+			});
+
+		}
+
+		function updatedata() {
+			var ref = db.collection('venue').doc('停屍間');
+			ref.update({
+				CityUVenue: "AC2 - 5樓長枱位置",
+				Dorm: "Blue",
+				GameVenue: "停屍間",
+				Status: "unAvailable",
+				vid: "AC1-CR",
+				補充: "4 Dorm做完可以走"
+			}).then(() => {
+				console.log('update data successful');
+			});
+		}
+	</script>
+</body></html>
