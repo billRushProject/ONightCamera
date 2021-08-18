@@ -49,16 +49,6 @@
 			});
 		}
 
-		function getdata() {
-			var ref = db.collection('venue');
-			ref.onSnapshot(querySnapshot => {
-				querySnapshot.forEach(doc => {
-					console.log(doc.id, doc.data());
-				});
-			});
-
-		}
-
 		function updatedata() {
 			var ref = db.collection('venue').doc('停屍間');
 			ref.update({

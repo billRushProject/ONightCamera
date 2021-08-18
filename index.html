@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta charset="UTF-8">
@@ -23,7 +24,8 @@
 	}
 
 	nav,
-	.left-nav {
+	.left-nav,
+	.right-nav {
 		background-color: #6937B9;
 		height: 80px;
 		display: flex;
@@ -70,6 +72,7 @@
 		height: 300px;
 		object-fit: cover;
 	}
+
 </style>
 
 <body onload="getdata(); checkLogin();">
@@ -79,12 +82,12 @@
 			<div class="left-nav">
 				<img src="img/onight.png" alt="" class="icon">
 
-				<div class="nav-item" onclick="checkLogin()">
+				<div class="nav-item" >
 					Dgame
 				</div>
 
 			</div>
-			<div class="right-nav">
+			<div class="right-nav" id="leftNav">
 
 				<div class="nav-item" id="loginInfo">
 					<a href="login.html" class="login">
@@ -102,61 +105,104 @@
 	<script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-firestore.js"></script>
 	<script src="js/fireBase.js"></script>
 	<script>
-		function storedata() {
-			var tempCityu = document.getElementById("cityu").value;
-			var tempDorm = document.getElementById("dorm").value;
-			var tempGameVenue = document.getElementById("venue").value;
-			var tempStatus = document.getElementById("status").value;
-			var tempVid = document.getElementById("vid").value;
-			var tempStatus = document.getElementById("remark").value;
+		var DormName = localStorage.getItem('name');
 
-			db.collection("venue").doc(tempGameVenue).set({
-				CityUVenue: tempCityu,
-				Dorm: tempDorm,
-				GameVenue: tempGameVenue,
-				Status: tempStatus,
-				vid: tempVid,
-				補充: tempStatus
-			});
-		}
 		function getdata() {
+			var dormAFK=localStorage.getItem('afk');
+			alert(dormAFK);
+
 			var ref = db.collection('venue');
-			var temp = "";
 			ref.onSnapshot(querySnapshot => {
 				querySnapshot.forEach(doc => {
-					var showStatus = "Offlive";
-					if (doc.data().Status == "available") {
-						showStatus = "Live";
+
+					var showStatus = "Live";
+					if (doc.data().Status !== "available") {
+						showStatus = doc.data().Dorm;
 					}
-					temp = `<div class="gridItem">
+					 if (DormName == null ) {
+						temp = `<div class="gridItem">
 						<img src="${doc.data().補充}" alt="" id="camImg">
 						<span class="roomText " >${showStatus} </span>
 						<span class="roomTile">${doc.data().GameVenue}</span>
 						</div>`;
+						console.log("1");
+
+					}else if(doc.data().Status !== "available"){
+
+						temp = `<div class="gridItem">
+						<img src="${doc.data().補充}" alt="" id="camImg">
+						<span class="roomText " >${showStatus} </span>
+						<span class="roomTile">${doc.data().GameVenue}</span>
+						</div>`;
+						console.log("2");
+					}else if(dormAFK){
+						temp = `<div class="gridItem">
+						<img src="${doc.data().補充}" alt="" id="camImg">
+						<span class="roomText " >${showStatus} </span>
+						<span class="roomTile">${doc.data().GameVenue}</span>
+						<span class="roomTile activeHide" style="" id="${doc.id}" onclick="updatedata(this.id)">前往</span>
+						</div>`;
+
+
+					}
+
 					document.getElementById("showVenue").innerHTML += temp;
 				});
 			});
-		}
-		function updatedata() {
-			var ref = db.collection('venue').doc('停屍間');
-			ref.update({
-				CityUVenue: "AC2 - 5樓長枱位置",
-				Dorm: "Blue",
-				GameVenue: "停屍間",
-				Status: "unAvailable",
-				vid: "AC1-CR",
-				補充: "4 Dorm做完可以走"
-			}).then(() => {
-				console.log('update data successful');
-			});
-		}
-		function checkLogin(){
-			var aValue = localStorage.getItem('name');
-			document.getElementById("loginInfo").innerHTML=`<div class="nav-item" id="loginInfo">
-			${aValue}</div>`;
+			}
 
 
+		function updatedata(venueid) {
+
+				var ref = db.collection('venue').doc(venueid);
+				ref.update({
+					Status: "unAvailable",
+					Dorm: DormName
+				}).then(() => {
+					window.localStorage.setItem('afk', false);
+					window.location.href = "index.html";
+				});
 		}
+		function updateLeaveRoomData(venueid) {
+				var ref = db.collection('venue').doc(venueid);
+				ref.update({
+					Status: "available",
+					Dorm: "null"
+				}).then(() => {
+					window.localStorage.setItem('afk', true);
+					console.log('update data successful');
+				    window.location.href = "index.html";
+				});
+		}
+
+		function leaveRoom(){
+			db.collection("venue").where("Dorm", "==", DormName)
+				.get()
+				.then((querySnapshot) => {
+					querySnapshot.forEach((doc) => {
+						updateLeaveRoomData(doc.data().vid);
+					});
+				}).catch((error) => {
+					console.log("Error getting documents: ", error);
+				});
+			window.localStorage.setItem('afk', true);
+
+		}
+
+		function checkLogin() {
+			if (DormName != null) {
+				document.getElementById("loginInfo").innerHTML = `<div class="nav-item" id="loginInfo" onclick="leaveRoom()">
+			${DormName}</div>`;
+				document.getElementById("leftNav").innerHTML += `<div class="nav-item" onclick="signOut()">
+			Sign out</div>`;
+			}
+		}
+		function signOut() {
+			localStorage.clear();
+			window.location.href = "index.html";
+		}
+
 	</script>
 </body>
+
 </html>

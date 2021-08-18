@@ -119,19 +119,17 @@
 			var dormName="";
 			ref.onSnapshot(querySnapshot => {
 				querySnapshot.forEach(doc => {
-					dormName=doc.data().Dorm;
+
 					if(doc.data().userName==tempUid && doc.data().password== tempPassword){
+						dormName=doc.data().Dorm;
 						login=true;
 					}else{
 
 					}
-
 				});
-				alert(login);
 				if(login){
 				   window.localStorage.setItem('name', dormName);
 				   window.location.href = "index.html";
-
 				 }else{
 
 					 document.getElementById("showMessage").innerHTML=`<div class="error">UID / Password is incorrect</div>`;
