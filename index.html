@@ -46,6 +46,7 @@
 	}
 
 	.nav-item {
+		cursor: pointer;
 		vertical-align: middle;
 		line-height: 35px;
 		padding: 0px 15px;
@@ -118,7 +119,6 @@
 	<script src="js/fireBase.js"></script>
 	<script>
 		var DormName = localStorage.getItem('name');
-
 		function getdata() {
 			var dormAFK=localStorage.getItem('afk');
 			if(dormAFK==null){dormAFK=true;}
