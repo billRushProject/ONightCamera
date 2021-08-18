@@ -134,7 +134,6 @@
 						<span class="roomText " >${showStatus} </span>
 						<span class="roomTile">${doc.data().GameVenue}</span>
 						</div>`;
-						console.log("1");
 
 					}else if(doc.data().Status !== "available"){
 
@@ -143,7 +142,6 @@
 						<span class="roomText " >${showStatus} </span>
 						<span class="roomTile">${doc.data().GameVenue}</span>
 						</div>`;
-						console.log("2");
 					}else{
 					let x = getCookie("afk");
 						if(x==null){
@@ -153,14 +151,12 @@
 							<span class="roomTile">${doc.data().GameVenue}</span>
 							<span class="roomTile activeHide" style="" id="${doc.id}" onclick="updatedata(this.id);">前往</span>
 							</div>`;
-							console.log("3");
 						}else{
 							temp += `<div class="gridItem">
 							<img src="${doc.data().補充}" alt="" id="camImg">
 							<span class="roomText " >${showStatus} </span>
 							<span class="roomTile">${doc.data().GameVenue}</span>
 							</div>`;
-							console.log("4");
 						}
 					}
 					document.getElementById("showVenue").innerHTML = temp;
