@@ -109,18 +109,17 @@
 
 		function getdata() {
 			var dormAFK=localStorage.getItem('afk');
-			alert(dormAFK);
-
+			if(dormAFK==null){dormAFK=true;}
+			var temp="";
 			var ref = db.collection('venue');
 			ref.onSnapshot(querySnapshot => {
 				querySnapshot.forEach(doc => {
-
 					var showStatus = "Live";
 					if (doc.data().Status !== "available") {
 						showStatus = doc.data().Dorm;
 					}
 					 if (DormName == null ) {
-						temp = `<div class="gridItem">
+						temp += `<div class="gridItem">
 						<img src="${doc.data().補充}" alt="" id="camImg">
 						<span class="roomText " >${showStatus} </span>
 						<span class="roomTile">${doc.data().GameVenue}</span>
@@ -129,14 +128,14 @@
 
 					}else if(doc.data().Status !== "available"){
 
-						temp = `<div class="gridItem">
+						temp += `<div class="gridItem">
 						<img src="${doc.data().補充}" alt="" id="camImg">
 						<span class="roomText " >${showStatus} </span>
 						<span class="roomTile">${doc.data().GameVenue}</span>
 						</div>`;
 						console.log("2");
 					}else if(dormAFK){
-						temp = `<div class="gridItem">
+						temp += `<div class="gridItem">
 						<img src="${doc.data().補充}" alt="" id="camImg">
 						<span class="roomText " >${showStatus} </span>
 						<span class="roomTile">${doc.data().GameVenue}</span>
@@ -144,9 +143,15 @@
 						</div>`;
 
 
+					}else{
+						temp += `<div class="gridItem">
+						<img src="${doc.data().補充}" alt="" id="camImg">
+						<span class="roomText " >${showStatus} </span>
+						<span class="roomTile">${doc.data().GameVenue}</span>
+						</div>`;
 					}
 
-					document.getElementById("showVenue").innerHTML += temp;
+					document.getElementById("showVenue").innerHTML = temp;
 				});
 			});
 			}
@@ -186,7 +191,6 @@
 					console.log("Error getting documents: ", error);
 				});
 			window.localStorage.setItem('afk', true);
-
 		}
 
 		function checkLogin() {
