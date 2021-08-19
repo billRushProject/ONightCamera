@@ -2,216 +2,212 @@
 <html lang="en">
 
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta charset="UTF-8">
-	<title>Onight</title>
-	<link rel="icon" href="img/onight.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Onight</title>
+  <link rel="icon" href="img/onight.png" />
 
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
-	<link rel="stylesheet" href="css/cctv.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+  <link rel="stylesheet" href="css/cctv.css">
 </head>
 <style>
-	/*
+  /*
   Nav #decaff
   bg #3C1E6E
   btn #6937B9
   section #3C1E6E
   */
-	body {
-		margin: 0px;
-	}
+  body {
+    margin: 0px;
+  }
 
-	nav,
-	.left-nav,
-	.right-nav {
-		background-color: #6937B9;
-		height: 80px;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: space-around;
-	}
+  nav,
+  .left-nav,
+  .right-nav {
+    background-color: #6937B9;
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+  }
 
-	.right-nav>.nav-item {
-		border-radius: 8px;
-		border: 3px solid #3C1E6E;
-		background-color: transparent;
-	}
+  .right-nav>.nav-item {
+    border-radius: 8px;
+    border: 3px solid #3C1E6E;
+    background-color: transparent;
+  }
 
-	.right-nav>.nav-item:hover {
-		border: 3px solid white;
-		background-color: #3C1E6E;
-	}
+  .right-nav>.nav-item:hover {
+    border: 3px solid white;
+    background-color: #3C1E6E;
+  }
 
-	.nav-item {
-		vertical-align: middle;
-		line-height: 35px;
-		padding: 0px 15px;
-		margin: 0px 5px;
-		color: wheat;
-	}
+  .nav-item {
+    vertical-align: middle;
+    line-height: 35px;
+    padding: 0px 15px;
+    margin: 0px 5px;
+    color: wheat;
+  }
 
-	.icon {
-		width: 70px;
-	}
+  .icon {
+    width: 70px;
+  }
 
-	.login {
-		text-decoration: none;
-		color: wheat;
-	}
+  .login {
+    text-decoration: none;
+    color: wheat;
+  }
 
-	.roomText {
-		font-weight: bold;
-		background-color: black;
-		padding: 5px;
-	}
+  .roomText {
+    font-weight: bold;
+    background-color: black;
+    padding: 5px;
+  }
 
-	#camImg {
-		height: 300px;
-		object-fit: cover;
-	}
-
+  #camImg {
+    height: 300px;
+    object-fit: cover;
+  }
 </style>
 
 <body onload="getdata(); checkLogin();">
 
-	<div>
-		<nav>
-			<div class="left-nav">
-				<img src="img/onight.png" alt="" class="icon">
+  <div>
+    <nav>
+      <div class="left-nav">
+        <img src="img/onight.png" alt="" class="icon">
 
-				<div class="nav-item" onclick="checkLogin()">
-					Dgame
-				</div>
+        <div class="nav-item" onclick="checkLogin()">
+          Dgame
+        </div>
 
-			</div>
-			<div class="right-nav" id="leftNav">
+      </div>
+      <div class="right-nav" id="leftNav">
 
-				<div class="nav-item" id="loginInfo">
-					<a href="login.html" class="login">
-						login</a>
-				</div>
+        <div class="nav-item" id="loginInfo">
+          <a href="login.html" class="login">
+            login</a>
+        </div>
 
-			</div>
-		</nav>
-		<div class="container" id="showVenue">
-		</div>
-	</div>
-	<script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-analytics.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-firestore.js"></script>
-	<script src="js/fireBase.js"></script>
-	<script>
-		var DormName = localStorage.getItem('name');
+      </div>
+    </nav>
+    <div class="container" id="showVenue">
 
-		function storedata() {
-			var tempCityu = document.getElementById("cityu").value;
-			var tempDorm = document.getElementById("dorm").value;
-			var tempGameVenue = document.getElementById("venue").value;
-			var tempStatus = document.getElementById("status").value;
-			var tempVid = document.getElementById("vid").value;
-			var tempStatus = document.getElementById("remark").value;
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-firestore.js"></script>
+    <script src="js/fireBase.js"></script>
+    <script>
+      var DormName = localStorage.getItem('name');
 
-			db.collection("venue").doc(tempGameVenue).set({
-				CityUVenue: tempCityu,
-				Dorm: tempDorm,
-				GameVenue: tempGameVenue,
-				Status: tempStatus,
-				vid: tempVid,
-				補充: tempStatus
-			});
-		}
+      function storedata() {
+        var tempCityu = document.getElementById("cityu").value;
+        var tempDorm = document.getElementById("dorm").value;
+        var tempGameVenue = document.getElementById("venue").value;
+        var tempStatus = document.getElementById("status").value;
+        var tempVid = document.getElementById("vid").value;
+        var tempStatus = document.getElementById("remark").value;
 
-		function getdata() {
-			var ref = db.collection('venue');
-			var temp = "";
-			ref.onSnapshot(querySnapshot => {
-				querySnapshot.forEach(doc => {
+        db.collection("venue").doc(tempGameVenue).set({
+          CityUVenue: tempCityu,
+          Dorm: tempDorm,
+          GameVenue: tempGameVenue,
+          Status: tempStatus,
+          vid: tempVid,
+          補充: tempStatus
+        });
+      }
 
-					var showStatus = "Live";
-					if (doc.data().Status !== "available") {
-						showStatus = doc.data().Dorm;
-					}
-					if (DormName != null) {
-						temp = `<div class="gridItem">
+      function getdata() {
+        var ref = db.collection('venue');
+        var temp = "";
+        ref.onSnapshot(querySnapshot => {
+          querySnapshot.forEach(doc => {
+
+            var showStatus = "Live";
+            if (doc.data().Status !== "available") {
+              showStatus = doc.data().Dorm;
+            }
+            if (DormName != null) {
+              temp = `<div class="gridItem">
 						<img src="${doc.data().補充}" alt="" id="camImg">
 						<span class="roomText " >${showStatus} </span>
 						<span class="roomTile">${doc.data().GameVenue}</span>
 						<span class="roomTile" style="" id="${doc.id}" onclick="updatedata(this.id)">前往</span>
 						</div>`;
-					} else {
-						temp = `<div class="gridItem">
+            } else {
+              temp = `<div class="gridItem">
 						<img src="${doc.data().補充}" alt="" id="camImg">
 						<span class="roomText " >${showStatus} </span>
 						<span class="roomTile">${doc.data().GameVenue}</span>
 						</div>`;
-					}
+            }
 
-					document.getElementById("showVenue").innerHTML += temp;
-				});
-			});
-		}
+            document.getElementById("showVenue").innerHTML += temp;
+          });
+        });
+      }
 
-		function updatedata(venueid) {
-			//Check login
-			if (DormName != null) {
-				var dormActive = localStorage.getItem('active');
-				//Check dorm whether stay at room
-				if(dormActive!=null){
-					//Leave the Room
-					var leave = localStorage.getItem('leaveRoom');
-					var ref0 = db.collection('venue').doc(leave);
-					ref.update({
-						Status: "available",
-						Dorm: "null"
-					}).then(() => {
-						var ref = db.collection('venue').doc(venueid);
+      function updatedata(venueid) {
+        //Check login
+        if (DormName != null) {
+          var dormActive = localStorage.getItem('active');
+          //Check dorm whether stay at room
+          if (dormActive != null) {
+            //Leave the Room
+            var leave = localStorage.getItem('leaveRoom');
+            var ref0 = db.collection('venue').doc(leave);
+            ref.update({
+              Status: "available",
+              Dorm: "null"
+            }).then(() => {
+              var ref = db.collection('venue').doc(venueid);
 
-					});
+            });
 
-				}else{
-					ref.update({
-						Status: "unAvailable",
-						Dorm: DormName
-					}).then(() => {
-						var ref = db.collection('venue').doc(venueid);
-						if (!dormActive) {
-							window.localStorage.setItem('active', true);
-							window.localStorage.setItem('leaveRoom', venueid);
-						} else {
-							var ref = db.collection('venue');
-							var query = citiesRef.where("Dorm", "==", DormName);
-							alert(query);
+          } else {
+            ref.update({
+              Status: "unAvailable",
+              Dorm: DormName
+            }).then(() => {
+              var ref = db.collection('venue').doc(venueid);
+              if (!dormActive) {
+                window.localStorage.setItem('active', true);
+                window.localStorage.setItem('leaveRoom', venueid);
+              } else {
+                var ref = db.collection('venue');
+                var query = citiesRef.where("Dorm", "==", DormName);
+                alert(query);
 
-						}
-						console.log('update data successful');
-					});
-				}
+              }
+              console.log('update data successful');
+            });
+          }
 
-			}
-		}
+        }
+      }
 
 
-		function checkLogin() {
-			if (DormName != null) {
-				document.getElementById("loginInfo").innerHTML = `<div class="nav-item" id="loginInfo" onclick="leaveRoom()">
+      function checkLogin() {
+        if (DormName != null) {
+          document.getElementById("loginInfo").innerHTML = `<div class="nav-item" id="loginInfo" onclick="leaveRoom()">
 			${DormName}</div>`;
-				document.getElementById("leftNav").innerHTML += `<div class="nav-item" onclick="signOut()">
+          document.getElementById("leftNav").innerHTML += `<div class="nav-item" onclick="signOut()">
 			Sign out</div>`;
-			}
+        }
 
 
-		}
+      }
 
-		function signOut() {
-			localStorage.clear();
-			window.location.href = "index.html";
-		}
-
-	</script>
-</body>
-
-</html>
+      function signOut() {
+        localStorage.clear();
+        window.location.href = "index.html";
+      }
+    </script>
+</body></html>

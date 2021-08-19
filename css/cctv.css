@@ -19,6 +19,7 @@ body{
   }
 
   .gridItem img{
+    position: relative;
     width: 290px;
     border: 4px solid #6937B9;
   }

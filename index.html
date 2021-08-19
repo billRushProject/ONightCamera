@@ -80,6 +80,13 @@
 		color: #3C1E6E;
 	}
 
+  #yellowLine{
+    height: 300px;
+    z-index: 5;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
 
 </style>
 
@@ -129,16 +136,26 @@
 					}
 
 					 if (DormName == null ) {
-						temp += `<div class="gridItem">
+                       if(doc.data().Status !== "available"){
+                         temp += `<div class="gridItem">
+						<img src="${doc.data().補充}" alt="" id="camImg">
+                        <img src="img/yellowLine.png" alt="" id="yellowLine">
+						<span class="roomText " >${showStatus} </span>
+						<span class="roomTile">${doc.data().GameVenue}</span>
+						</div>`;
+                       }else{
+                         temp += `<div class="gridItem">
 						<img src="${doc.data().補充}" alt="" id="camImg">
 						<span class="roomText " >${showStatus} </span>
 						<span class="roomTile">${doc.data().GameVenue}</span>
 						</div>`;
+                       }
 
-					}else if(doc.data().Status !== "available"){
+                    }else if(doc.data().Status !== "available"){
 
 						temp += `<div class="gridItem">
 						<img src="${doc.data().補充}" alt="" id="camImg">
+                        <img src="img/yellowLine.png" alt="" id="yellowLine">
 						<span class="roomText " >${showStatus} </span>
 						<span class="roomTile">${doc.data().GameVenue}</span>
 						</div>`;
