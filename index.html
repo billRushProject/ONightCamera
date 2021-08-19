@@ -82,6 +82,7 @@
 
   #yellowLine{
     height: 300px;
+    object-fit: cover;
     z-index: 5;
     position: absolute;
     top: 0;
@@ -139,7 +140,7 @@
                        if(doc.data().Status !== "available"){
                          temp += `<div class="gridItem">
 						<img src="${doc.data().補充}" alt="" id="camImg">
-                        <img src="img/yellowLine.png" alt="" id="yellowLine">
+                        <img src="img/yellowLine2.png" alt="" id="yellowLine">
 						<span class="roomText " >${showStatus} </span>
 						<span class="roomTile">${doc.data().GameVenue}</span>
 						</div>`;
@@ -155,7 +156,7 @@
 
 						temp += `<div class="gridItem">
 						<img src="${doc.data().補充}" alt="" id="camImg">
-                        <img src="img/yellowLine.png" alt="" id="yellowLine">
+                        <img src="img/yellowLine2.png" alt="" id="yellowLine">
 						<span class="roomText " >${showStatus} </span>
 						<span class="roomTile">${doc.data().GameVenue}</span>
 						</div>`;
