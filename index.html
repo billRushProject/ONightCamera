@@ -79,8 +79,7 @@
 		cursor: pointer;
 		color: #3C1E6E;
 	}
-
-  #yellowLine{
+  	#yellowLine{
     height: 300px;
     object-fit: cover;
     z-index: 5;
@@ -130,12 +129,10 @@
 			var ref = db.collection('venue');
 			ref.onSnapshot(querySnapshot => {
 				querySnapshot.forEach(doc => {
-
 					var showStatus = "Live";
 					if (doc.data().Status !== "available") {
 						showStatus = doc.data().Dorm;
 					}
-
 					 if (DormName == null ) {
                        if(doc.data().Status !== "available"){
                          temp += `<div class="gridItem">
@@ -151,9 +148,7 @@
 						<span class="roomTile">${doc.data().GameVenue}</span>
 						</div>`;
                        }
-
                     }else if(doc.data().Status !== "available"){
-
 						temp += `<div class="gridItem">
 						<img src="${doc.data().補充}" alt="" id="camImg">
                         <img src="img/yellowLine.png" alt="" id="yellowLine">
@@ -161,90 +156,89 @@
 						<span class="roomTile">${doc.data().GameVenue}</span>
 						</div>`;
 					}else{
-					let x = getCookie("afk");
-						if(x==null){
-							temp += `<div class="gridItem" id='con'>
-							<img src="${doc.data().補充}" alt="" id="camImg">
-							<span class="roomText " >${showStatus} </span>
-							<span class="roomTile">${doc.data().GameVenue}</span>
-							<span class="roomTile activeHide" style="" id="${doc.id}" onclick="updatedata(this.id);">前往</span>
-							</div>`;
-						}else{
-							temp += `<div class="gridItem">
-							<img src="${doc.data().補充}" alt="" id="camImg">
-							<span class="roomText " >${showStatus} </span>
-							<span class="roomTile">${doc.data().GameVenue}</span>
-							</div>`;
+						let x = getCookie("afk");
+							if(x==null){
+								temp += `<div class="gridItem" id='con'>
+								<img src="${doc.data().補充}" alt="" id="camImg">
+								<span class="roomText " >${showStatus} </span>
+								<span class="roomTile">${doc.data().GameVenue}</span>
+								<span class="roomTile activeHide" style="" id="${doc.id}" onclick="updatedata(this.id);">前往</span>
+								</div>`;
+							}else{
+								temp += `<div class="gridItem">
+								<img src="${doc.data().補充}" alt="" id="camImg">
+								<span class="roomText " >${showStatus} </span>
+								<span class="roomTile">${doc.data().GameVenue}</span>
+								</div>`;
+							}
 						}
-					}
-					document.getElementById("showVenue").innerHTML = temp;
-
+						document.getElementById("showVenue").innerHTML = temp;
 				});
 			});
 			}
-		function getCookie(cName) {
-		  const name = cName + "=";
-		  const cDecoded = decodeURIComponent(document.cookie); //to be careful
-		  const cArr = cDecoded.split('; ');
-		  let res;
-		  cArr.forEach(val => {
-			if (val.indexOf(name) === 0) res = val.substring(name.length);
-		  })
-		  return res
-		}
-
-		function updatedata(venueid) {
-				document.cookie = "afk=yes; expires=Thu, 18 Dec 2023 12:00:00 UTC; path=/";
-				var ref = db.collection('venue').doc(venueid);
-				ref.update({
-					Status: "unAvailable",
-					Dorm: DormName
-				}).then(() => {
-					window.localStorage.setItem('afk', false);
-					window.location.href = "index.html";
-				});
-		}
-		function updateLeaveRoomData(venueid) {
-				document.cookie = "afk=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-				var ref = db.collection('venue').doc(venueid);
-				ref.update({
-					Status: "available",
-					Dorm: "null"
-				}).then(() => {
-					window.localStorage.setItem('afk', true);
-					console.log('update data successful');
-				    window.location.href = "index.html";
-				});
-		}
-		function leaveRoom(){
-			db.collection("venue").where("Dorm", "==", DormName)
-				.get()
-				.then((querySnapshot) => {
-					querySnapshot.forEach((doc) => {
-						updateLeaveRoomData(doc.data().vid);
-					});
-				}).catch((error) => {
-					console.log("Error getting documents: ", error);
-				});
-			window.localStorage.setItem('afk', true);
-		}
-		//Account Control
-		function checkLogin() {
-			if (DormName != null) {
-				document.getElementById("loginInfo").innerHTML = `<div class="nav-item" id="loginInfo" onclick="leaveRoom()">${DormName}</div>`;
-				document.getElementById("leftNav").innerHTML += `<div class="nav-item" onclick="signOut()">
-			Sign out</div>`;
+			function getCookie(cName) {
+			  const name = cName + "=";
+			  const cDecoded = decodeURIComponent(document.cookie); //to be careful
+			  const cArr = cDecoded.split('; ');
+			  let res;
+			  cArr.forEach(val => {
+				if (val.indexOf(name) === 0) res = val.substring(name.length);
+			  })
+			  return res
 			}
-		}
-		function signOut() {
-			localStorage.clear();
-			window.location.href = "index.html";
-		}
-		function clearCookie(){
-			document.cookie = "afk=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-			let x = getCookie("afk");
-				alert(x);
-		}
+
+			function updatedata(venueid) {
+					document.cookie = "afk=yes; expires=Thu, 18 Dec 2023 12:00:00 UTC; path=/";
+					var ref = db.collection('venue').doc(venueid);
+					ref.update({
+						Status: "unAvailable",
+						Dorm: DormName
+					}).then(() => {
+						window.localStorage.setItem('afk', false);
+						window.location.href = "index.html";
+					});
+			}
+			function updateLeaveRoomData(venueid) {
+					document.cookie = "afk=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+					var ref = db.collection('venue').doc(venueid);
+					ref.update({
+						Status: "available",
+						Dorm: "null"
+					}).then(() => {
+						window.localStorage.setItem('afk', true);
+						console.log('update data successful');
+						window.location.href = "index.html";
+					});
+			}
+			function leaveRoom(){
+				db.collection("venue").where("Dorm", "==", DormName)
+					.get()
+					.then((querySnapshot) => {
+						querySnapshot.forEach((doc) => {
+							updateLeaveRoomData(doc.data().vid);
+						});
+					}).catch((error) => {
+						console.log("Error getting documents: ", error);
+					});
+				window.localStorage.setItem('afk', true);
+			}
+			//Account Control
+			function checkLogin() {
+				if (DormName != null) {
+					document.getElementById("loginInfo").innerHTML = `<div class="nav-item" id="loginInfo" onclick="leaveRoom()">${DormName}</div>`;
+					document.getElementById("leftNav").innerHTML += `<div class="nav-item" onclick="signOut()">
+				Sign out</div>`;
+				}
+			}
+			function signOut() {
+				localStorage.clear();
+				window.location.href = "index.html";
+			}
+			function clearCookie(){
+				document.cookie = "afk=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+				let x = getCookie("afk");
+					alert(x);
+			}
 	</script>
 
 
